@@ -57,5 +57,5 @@ make distclean
 ```
 
 [Apache Commons Compress]: https://commons.apache.org/proper/commons-compress/
-[Java]: https://openjdk.java.net/
+[OpenJDK Java]: https://openjdk.java.net/
 [GNU Make]: https://www.gnu.org/software/make/
