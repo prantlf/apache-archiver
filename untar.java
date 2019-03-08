@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
 
+import java.nio.file.Files;
+
 public class untar {
     public static void main(String args[]) throws Exception {
         if (args.length == 0) {
@@ -48,10 +50,14 @@ public class untar {
                 break;
             }
             String entryName = tarEntry.getName();
-            if (tarEntry.isFile()) {
+            if (tarEntry.isSymbolicLink()) {
+                System.out.println("Symbolic link \"" + entryName + "\"");
+            } else if (tarEntry.isDirectory()) {
+                System.out.println("Directory \"" + entryName + "\"");
+            } else if (tarEntry.isFile()) {
                 System.out.println("File \"" + entryName + "\"");
             } else {
-                System.out.println("Directory \"" + entryName + "\"");
+                throw new IOException("Unknown archive entry type.");
             }
         }
         tarInput.close();
@@ -68,7 +74,18 @@ public class untar {
                 break;
             }
             String entryName = tarEntry.getName();
-            if (tarEntry.isFile()) {
+            if (tarEntry.isSymbolicLink()) {
+                String linkName = tarEntry.getLinkName();
+                System.out.println("Linking \"" + linkName + "\" to \"" + entryName + "\"...");
+                File outputFile = new File(outputDirectory, entryName);
+                File parentDirectory = outputFile.getParentFile();
+                File linkFile = new File(parentDirectory, linkName);
+                Files.createSymbolicLink(outputFile.toPath(), linkFile.toPath().toAbsolutePath());
+            } else if (tarEntry.isDirectory()) {
+                System.out.println("Creating \"" + entryName + "\"...");
+                File outputFile = new File(outputDirectory, entryName);
+                outputFile.mkdirs();
+            } else if (tarEntry.isFile()) {
                 System.out.println("Unpacking \"" + entryName + "\"...");
                 File outputFile = new File(outputDirectory, entryName);
                 File parentDirectory = outputFile.getParentFile();
@@ -84,7 +101,7 @@ public class untar {
                 }
                 outputStream.close();
             } else {
-                System.out.println("Skipping \"" + entryName + "\"...");
+                throw new IOException("Unknown archive entry type.");
             }
         }
         tarInput.close();
