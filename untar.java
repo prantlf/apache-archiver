@@ -7,6 +7,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
 
 public class untar {
@@ -39,13 +40,7 @@ public class untar {
     }
 
     private static void list(File archive) throws IOException {
-        TarArchiveInputStream tarInput = new TarArchiveInputStream(
-            new GzipCompressorInputStream(
-                new BufferedInputStream(
-                    new FileInputStream(archive)
-                )
-            )
-        );
+        TarArchiveInputStream tarInput = openArchive(archive);
 
         while (true) {
             TarArchiveEntry tarEntry = tarInput.getNextTarEntry();
@@ -63,13 +58,7 @@ public class untar {
     }
 
     private static void uncompress(File archive, File outputDirectory) throws IOException {
-        TarArchiveInputStream tarInput = new TarArchiveInputStream(
-            new GzipCompressorInputStream(
-                new BufferedInputStream(
-                    new FileInputStream(archive)
-                )
-            )
-        );
+        TarArchiveInputStream tarInput = openArchive(archive);
 
         outputDirectory.mkdirs();
 
@@ -99,5 +88,13 @@ public class untar {
             }
         }
         tarInput.close();
+    }
+
+    private static TarArchiveInputStream openArchive(File archive) throws IOException {
+        InputStream input = new BufferedInputStream(new FileInputStream(archive));
+        if (archive.getName().endsWith(".gz")) {
+            input = new GzipCompressorInputStream(input);
+        }
+        return new TarArchiveInputStream(input);
     }
 }
