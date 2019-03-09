@@ -1,7 +1,7 @@
 apache-archiver
 ===============
 
-Simple compressing and decompressing command-line tools using [Apache Commons Compress].
+Simple compressing and decompressing command-line tools using [Apache Commons Compress]. You can use them as source code examples too.
 
 How to Use
 ----------
@@ -10,7 +10,10 @@ Run the command-line tools without parameters to see the usage description:
 
 ```text
 $ java -cp commons-compress-1.18.jar:. untar
-Usage: untar [l|x] <input archive> <output directory>
+Usage: untar l|x <input archive> [output directory]
+
+$ java -cp commons-compress-1.18.jar:. unzip
+Usage: unzip l|x <input archive> [output directory]
 ```
 
 List contents of a TAR.GZ archive:
@@ -21,10 +24,10 @@ File "commons-compress-1.18/LICENSE.txt"
 ...
 ```
 
-Uncompress a TAR.GZ archive to the current directory:
+Uncompress a ZIP archive to the current directory:
 
 ```text
-$ java -cp commons-compress-1.18.jar:. untar x commons-compress-1.18-bin.tar.gz .
+$ java -cp commons-compress-1.18.jar:. unzip x commons-compress-1.18-bin.zip .
 Unpacking "commons-compress-1.18/LICENSE.txt"...
 ...
 ```
@@ -50,11 +53,23 @@ The following command will remove build and test output files:
 make clean
 ```
 
-The following command will remove all files created by the build script, including the downloaded `commons-compress` package:
+The following command will remove all files created by the `Makefile`, including the downloaded `commons-compress` package:
 
 ```sh
 make distclean
 ```
+
+Contributing
+------------
+
+In lieu of a formal styleguide, take care to maintain the existing coding style.
+
+License
+-------
+
+Copyright (c) 2019 Ferdinand Prantl
+
+Licensed under the Apache 2.0 license.
 
 [Apache Commons Compress]: https://commons.apache.org/proper/commons-compress/
 [OpenJDK Java]: https://openjdk.java.net/
