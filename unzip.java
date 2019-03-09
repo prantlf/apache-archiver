@@ -1,8 +1,8 @@
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.utils.IOUtils;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -80,15 +80,7 @@ public class unzip {
                 File parentDirectory = outputFile.getParentFile();
                 parentDirectory.mkdirs();
                 outputFile.createNewFile();
-                byte[] readBuffer = new byte[32768];
-                BufferedOutputStream outputStream = new BufferedOutputStream(
-                    new FileOutputStream(outputFile)
-                );
-                int readSize = 0;
-                while((readSize = zipInput.read(readBuffer)) != -1) {
-                    outputStream.write(readBuffer, 0, readSize);
-                }
-                outputStream.close();
+                IOUtils.copy(zipInput, new FileOutputStream(outputFile));
             }
         }
         zipInput.close();

@@ -1,9 +1,9 @@
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.utils.IOUtils;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -91,15 +91,7 @@ public class untar {
                 File parentDirectory = outputFile.getParentFile();
                 parentDirectory.mkdirs();
                 outputFile.createNewFile();
-                byte[] readBuffer = new byte[32768];
-                BufferedOutputStream outputStream = new BufferedOutputStream(
-                    new FileOutputStream(outputFile)
-                );
-                int readSize = 0;
-                while((readSize = tarInput.read(readBuffer)) != -1) {
-                    outputStream.write(readBuffer, 0, readSize);
-                }
-                outputStream.close();
+                IOUtils.copy(tarInput, new FileOutputStream(outputFile));
             } else {
                 throw new IOException("Unknown archive entry type.");
             }
