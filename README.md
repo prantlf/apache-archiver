@@ -14,6 +14,12 @@ Usage: untar l|x <input archive> [output directory]
 
 $ java -cp commons-compress-1.18.jar:. unzip
 Usage: unzip l|x <input archive> [output directory]
+
+$ java -cp commons-compress-1.18.jar:. tar
+Usage: tar <output archive> [input directory]
+
+$ java -cp commons-compress-1.18.jar:. zip
+Usage: zip <output archive> [input directory]
 ```
 
 List contents of a TAR.GZ archive:
@@ -29,6 +35,14 @@ Uncompress a ZIP archive to the current directory:
 ```text
 $ java -cp commons-compress-1.18.jar:. unzip x commons-compress-1.18-bin.zip .
 Unpacking "commons-compress-1.18/LICENSE.txt"...
+...
+```
+
+Compress a TAR archive of the current directory:
+
+```text
+$ java -cp commons-compress-1.18.jar:. tar test.tar
+Packing "./LICENSE"...
 ...
 ```
 
