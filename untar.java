@@ -9,13 +9,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
-
 import java.nio.file.Files;
 
 public class untar {
     public static void main(String args[]) throws Exception {
         if (args.length == 0) {
-            System.out.println("Usage: untar [l|x] <input archive> <output directory>");
+            System.out.println("Usage: untar l|x <input archive> [output directory]");
         } else {
             String command = args[0];
             if (args.length < 2) {
@@ -27,12 +26,12 @@ public class untar {
                         list(archive);
                         break;
                     case "x":
-                        if (args.length < 3) {
-                            System.out.println("Missing output directory.");
-                        } else {
-                            File outputDirectory = new File(args[2]);
-                            uncompress(archive, outputDirectory);
+                        String outputDirectoryArg = ".";
+                        if (args.length > 2) {
+                            outputDirectoryArg = args[2];
                         }
+                        File outputDirectory = new File(outputDirectoryArg);
+                        uncompress(archive, outputDirectory);
                         break;
                     default:
                         System.out.println("Unknown command.");
@@ -51,7 +50,8 @@ public class untar {
             }
             String entryName = tarEntry.getName();
             if (tarEntry.isSymbolicLink()) {
-                System.out.println("Symbolic link \"" + entryName + "\"");
+                String linkName = tarEntry.getLinkName();
+                System.out.println("Symbolic link \"" + linkName + "\" to \"" + entryName + "\"");
             } else if (tarEntry.isDirectory()) {
                 System.out.println("Directory \"" + entryName + "\"");
             } else if (tarEntry.isFile()) {
