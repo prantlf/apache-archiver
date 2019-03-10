@@ -2,12 +2,8 @@ language: java
 notifications:
   email: false
 jdk:
-  - openjdk8
+  - oraclejdk8
   - openjdk11
-addons:
-  apt:
-    packages:
-    - make
 script:
   - make test
 branches:
