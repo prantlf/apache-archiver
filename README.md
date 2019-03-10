@@ -1,6 +1,9 @@
 apache-archiver
 ===============
 
+[![Build Status](https://travis-ci.org/prantlf/apache-archiver.png)](https://travis-ci.org/prantlf/apache-archiver)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d2f1a3517cc9da01668c/maintainability)](https://codeclimate.com/github/prantlf/apache-archiver/maintainability)
+
 Simple compressing and decompressing command-line tools using [Apache Commons Compress]. You can use them as source code examples too.
 
 How to Use
