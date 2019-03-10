@@ -1,0 +1,15 @@
+language: java
+notifications:
+  email: false
+jdk:
+  - openjdk8
+  - openjdk11
+addons:
+  apt:
+    packages:
+    - make
+script:
+  - make test
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
